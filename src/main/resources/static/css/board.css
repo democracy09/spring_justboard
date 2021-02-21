@@ -7,12 +7,12 @@ table, th, td {
 }
 
 header {
-    background-color: beige;
+    background-color: greenyellow;
     padding: 3%;
 }
 
 footer {
-    background-color: beige;
+    background-color: greenyellow;
     padding: 1%;
     text-align: center;
 }

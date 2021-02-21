@@ -7,7 +7,6 @@ import project3.myboard.domain.Board;
 import project3.myboard.domain.dto.BoardDto;
 import project3.myboard.repository.BoardRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,8 +15,11 @@ import java.util.stream.Collectors;
 @Service
 public class BoardService {
 
-    @Autowired
-    private BoardRepository boardRepository;
+    private final BoardRepository boardRepository;
+
+    public BoardService(BoardRepository boardRepository) {
+        this.boardRepository = boardRepository;
+    }
 
     @Transactional
     public void save(BoardDto boardDto){
@@ -26,12 +28,37 @@ public class BoardService {
 
     @Transactional
     public List<BoardDto> getBoardList(){
-        List<BoardDto> boards = boardRepository.findAll()
+        return boardRepository.findAll()
                 .stream()
                 .map(board -> BoardDto.of(board.getId(), board.getWriter(), board.getTitle(), board.getContent(), board.getCreatedAt(), board.getUpdatedAt()))
                 .collect(Collectors.toList());
-
-        return boards;
     }
+
+    @Transactional
+    public BoardDto getPost(Long id){
+        Board result = boardRepository.findById(id).get();
+
+        return BoardDto.of(result.getId(), result.getWriter(), result.getTitle(), result.getContent(), result.getCreatedAt(), result.getUpdatedAt());
+    }
+
+    @Transactional
+    public void update(BoardDto boardDto){
+        Optional<Board> optional = boardRepository.findById(boardDto.getId());
+
+        optional.map(board -> {
+            board.setTitle(boardDto.getTitle())
+                    .setContent(boardDto.getContent())
+                    .setWriter(boardDto.getWriter())
+                    .setUpdatedAt(boardDto.getUpdatedAt());
+            return board;
+        }).map(boardRepository::save);
+    }
+
+    @Transactional
+    public void delete(Long id){
+        boardRepository.deleteById(id);
+    }
+
+
 
 }

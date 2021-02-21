@@ -5,10 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import project3.myboard.domain.dto.BoardDto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -19,7 +16,7 @@ import javax.persistence.Id;
 @EqualsAndHashCode(callSuper=false)
 public class Board extends TimeInfo{
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 10, nullable = false)

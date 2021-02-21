@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>DETAIL</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}">
 </head>
 <body>
+<div th:insert="common/header.html" id="header"></div>
+<div id="wrap">
 <h2 th:text="${boardDto.title}"></h2>
-<p th:inline="text">작성일 : [[${#temporals.format(boardDto.createdDate, 'yyyy-MM-dd HH:mm')}]]</p>
+<p th:inline="text">작성일 : [[${#temporals.format(boardDto.createdAt, 'yyyy-MM-dd HH:mm')}]]</p>
 
 <p th:text="${boardDto.content}"></p>
 
@@ -28,5 +31,7 @@
     /*]]>*/
 </script>
 <script th:inline="javascript" th:src="@{/js/board.js}"></script>
+</div>
+<div th:insert="common/footer.html" id="footer"></div>
 </body>
 </html>
