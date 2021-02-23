@@ -1,7 +1,6 @@
 package project3.myboard.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +20,8 @@ public class BoardController {
     }
 
     @GetMapping("/")
-    public String list(Model model){
-        List<BoardDto> boardDtoList = boardService.getBoardList();
+    public String list(Model model, @RequestParam(value = "page") Integer page){
+        List<BoardDto> boardDtoList = boardService.getBoardList(page);
         model.addAttribute("boardList", boardDtoList);
 
         return "board/list.html";
@@ -69,5 +68,15 @@ public class BoardController {
 
         return "redirect:/";
     }
+
+
+    @GetMapping("/board/search")
+    public String search(@RequestParam(value = "keyword") String keyword, Model model){
+        List<BoardDto> boardDtoList = boardService.search(keyword);
+        model.addAttribute("boardList", boardDtoList);
+
+        return "board/list.html";
+    }
+
 
 }

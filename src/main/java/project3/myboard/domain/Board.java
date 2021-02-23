@@ -3,7 +3,6 @@ package project3.myboard.domain;
 
 import lombok.*;
 import lombok.experimental.Accessors;
-import project3.myboard.domain.dto.BoardDto;
 
 import javax.persistence.*;
 

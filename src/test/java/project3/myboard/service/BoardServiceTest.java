@@ -23,9 +23,7 @@ class BoardServiceTest {
         boardService.save(BoardDto.of(2L, "gg","ff","hjk", LocalDateTime.now(), LocalDateTime.now()));
         boardService.save(BoardDto.of(3L, "ss","ggjj","wear", LocalDateTime.now(), LocalDateTime.now()));
 
-        List<BoardDto> boardDtoList = boardService.getBoardList();
 
-        boardDtoList.forEach(System.out::println);
 
     }
 
@@ -49,6 +47,18 @@ class BoardServiceTest {
         BoardDto boardDto = boardService.getPost(2L);
 
         assertThat(boardDto.getWriter()).isEqualTo("gg");
+    }
+
+    @Test
+    void search(){
+        boardService.save(BoardDto.of(1L, "aa","gg","vzxcv", LocalDateTime.now(), LocalDateTime.now()));
+        boardService.save(BoardDto.of(2L, "gg","ff","hjk", LocalDateTime.now(), LocalDateTime.now()));
+        boardService.save(BoardDto.of(3L, "ss","ggjj","wear", LocalDateTime.now(), LocalDateTime.now()));
+
+        List<BoardDto> result = boardService.search("ggjj");
+
+        assertThat(result.get(0).getTitle()).isEqualTo("asdf");
+
     }
 
 }

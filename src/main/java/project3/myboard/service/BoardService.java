@@ -1,6 +1,6 @@
 package project3.myboard.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project3.myboard.domain.Board;
@@ -27,7 +27,8 @@ public class BoardService {
     }
 
     @Transactional
-    public List<BoardDto> getBoardList(){
+    public List<BoardDto> getBoardList(Integer page){
+
         return boardRepository.findAll()
                 .stream()
                 .map(board -> BoardDto.of(board.getId(), board.getWriter(), board.getTitle(), board.getContent(), board.getCreatedAt(), board.getUpdatedAt()))
@@ -59,6 +60,13 @@ public class BoardService {
         boardRepository.deleteById(id);
     }
 
+    @Transactional
+    public List<BoardDto> search(String keyword){
+        return boardRepository.findByTitleContaining(keyword)
+                .stream()
+                .map(board -> BoardDto.of(board.getId(), board.getWriter(), board.getTitle(), board.getContent(), board.getCreatedAt(), board.getUpdatedAt()))
+                .collect(Collectors.toList());
+    }
 
 
 }
